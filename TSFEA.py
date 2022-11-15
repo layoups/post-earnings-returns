@@ -111,6 +111,14 @@ class TSFEA:
         return dataset
 
 
+    def reconcile_estimates_with_earnings(
+        self,
+        homogenized_earnings: pd.DataFrame,
+        formatted_estimates: pd.DataFrame
+    ) -> pd.DataFrame:
+        pass
+
+
     def get_earnings_number(
         self,
         path_to_estimates: str,
