@@ -123,9 +123,8 @@ class TSFEA:
         return homogenized_estimates.droplevel(1).set_index('ERNUM', append=True).sort_index()
 
 
-    def get_earnings_number(
+    def extract_features(
         self,
-        path_to_estimates: str,
-        path_to_earnings: str
+        dataset: pd.DataFrame
     ) -> pd.DataFrame:
         pass
