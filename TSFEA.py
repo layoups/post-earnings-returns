@@ -66,7 +66,7 @@ class TSFEA:
             lambda x: x + (max_ernum - x.max())
         )
 
-        return earnings
+        return earnings.set_index('ANNDATS', append=True)
 
 
     def homogenize_estmates_dates(
