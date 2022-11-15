@@ -123,7 +123,35 @@ class TSFEA:
         return homogenized_estimates.droplevel(1).set_index('ERNUM', append=True).sort_index()
 
 
-    def extract_features(
+    def extract_features_from_column(
+        self,
+        dataset: pd.DataFrame,
+        column_name: str
+    ) -> pd.DataFrame:
+        ret, col = [], column_name
+        for ticker, ernum in dataset.index.unique():
+            ftrs = pd.DataFrame(
+                tsfe.catch22_all(
+                    dataset.loc[
+                        (ticker, ernum), 
+                        col
+                    ]
+                )
+            ).set_index(
+                'names'
+            ).T
+
+            ftrs.columns.name = None
+            ftrs['ticker'] = ticker
+            ftrs['ernum'] = ernum
+            ftrs.set_index(['ticker', 'ernum'], inplace=True)
+            ret.append(ftrs)
+
+        all_ftrs = pd.concat(ret).add_prefix(col)
+        return all_ftrs
+
+
+    def extract_features_from_dataset(
         self,
         dataset: pd.DataFrame
     ) -> pd.DataFrame:
