@@ -175,7 +175,11 @@ class TSFEA:
 
     @ignore_warnings(category=ConvergenceWarning)
     def tune_train_test(
-        X_train, X_test, y_train, y_test, model, params, algo, date, index, columns=numerical_columns
+        X_train, 
+        X_test, 
+        y_train, 
+        y_test, 
+        algo, 
     ):
         trials = Trials()
         thePredictionDict = []
