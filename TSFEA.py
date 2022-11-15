@@ -96,7 +96,19 @@ class TSFEA:
         dataset: pd.DataFrame,
         homogenized_earnings: pd.DataFrame
     ) -> pd.DataFrame:
-        pass
+        for idx, row in homogenized_earnings.iterrows():
+            try:
+                dataset.loc[
+                    (
+                        idx[0], 
+                        slice(idx[1])
+                    ),
+                    'ERNUM'
+                ] = row.ERNUM
+            except:
+                pass
+        
+        return dataset
 
 
     def get_earnings_number(
