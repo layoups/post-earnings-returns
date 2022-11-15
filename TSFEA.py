@@ -39,3 +39,40 @@ class TSFEA:
         self.hyparam_space = hyparam_space
 
     
+    def homogenize_earnings_dates(
+        self,
+        path_to_earnings: str
+    ) -> pd.DataFrame:
+        earnings = pd.read_csv(
+            path_to_earnings
+        ).sort_values(
+            ['TICKER', 'ANNDATS'], 
+            ascending=[True, False]
+        ).set_index(
+            'TICKER'
+        )
+
+        earnings['ERNUM'] = earnings.groupby(
+            'TICKER', 
+            group_keys = False
+        ).apply(
+            lambda x: (x.ANNDATS != x.ANNDATS.shift(1)).cumsum()[::-1]
+        )
+        max_ernum = earnings.ERNUM.max()
+        earnings['ERNUM'] = earnings.ERNUM.groupby(
+            'TICKER', 
+            group_keys=False
+        ).apply(
+            lambda x: x + (max_ernum - x.max())
+        )
+
+        return earnings
+
+
+
+    def get_earnings_number(
+        self,
+        path_to_estimates: str,
+        path_to_earnings: str
+    ) -> pd.DataFrame:
+        pass
