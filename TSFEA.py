@@ -21,7 +21,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.utils._testing import ignore_warnings
 from sklearn.exceptions import ConvergenceWarning
 
-from hyperopt import tpe, hp, fmin, STATUS_OK,Trials, space_eval
+from hyperopt import tpe, hp, fmin, STATUS_OK, Trials, space_eval
 from sklearn.datasets import fetch_openml
 
 import pycatch22 as tsfe
