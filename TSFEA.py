@@ -69,12 +69,26 @@ class TSFEA:
         return earnings.set_index('ANNDATS', append=True)
 
 
-    def homogenize_estmates_dates(
+    def format_estimates_data(
         self,
         path_to_estimates: str,
         homogenized_earnings: pd.DataFrame
     ) -> pd.DataFrame:
-        pass
+        estimates = pd.read_csv(path_to_estimates)
+        estimates = estimates[estimates.FISCALP == 'QTR']
+        estimates.FPEDATS = estimates.FPEDATS.astype('int')
+        estimates = estimates.set_index(['TICKER', 'FPEDATS'])
+
+        estimates = estimates.loc[
+            estimates.index.get_level_values(
+                0
+            ).isin(
+                homogenized_earnings.index.get_level_values(0)
+            )
+        ].sort_index()
+        estimates['ERNUM'] = 0
+
+        return estimates
 
 
 
