@@ -155,4 +155,18 @@ class TSFEA:
         self,
         dataset: pd.DataFrame
     ) -> pd.DataFrame:
-        pass
+        ret = []
+        for col in dataset.columns:
+            ret.append(
+                self.extract_features_from_column(
+                    dataset,
+                    col
+                )
+            )
+
+        all_ftrs = pd.concat(
+            ret, 
+            axis = 1
+        ).sort_index()
+
+        return all_ftrs
