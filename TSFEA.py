@@ -175,36 +175,56 @@ class TSFEA:
 
     @ignore_warnings(category=ConvergenceWarning)
     def tune_train_test(
-        X_train, 
-        X_test, 
-        y_train, 
-        y_test, 
-        algo, 
+        self,
+        X_train: pd.DataFrame, 
+        X_test: pd.DataFrame, 
+        y_train: pd.Series, 
+        y_test: pd.Series, 
+        algo: str, 
     ):
         trials = Trials()
+        model = self.models[algo]
+        hyparams = self.hyparam_space[algo]
         
         def objective(params):
             model.set_params(**params)
             
             score = cross_val_score(
-                model, X_train, y_train, cv=3, n_jobs=-1, error_score=0.99, 
-                scoring=metrics.make_scorer(custom_scoring, greater_is_better=False)
-                # scoring='neg_mean_absolute_error'
+                model,
+                X_train, 
+                y_train, 
+                cv=3, 
+                n_jobs=-1, 
+                error_score=0, 
+                scoring='f1'
             )
             return {'loss':  -np.mean(score), 'status': STATUS_OK}
 
         best_classifier = fmin(
-            objective, params, algo=tpe.suggest, max_evals=10, trials=trials, show_progressbar=False
+            objective, 
+            hyparams, 
+            algo=tpe.suggest, 
+            max_evals=100, 
+            trials=trials, 
+            show_progressbar=True
         )
-        best_params = space_eval(params, best_classifier)
+        best_hyparams = space_eval(
+            hyparams, 
+            best_classifier
+        )
 
         opti = model
-        opti.set_params(**best_params)
+        opti.set_params(**best_hyparams)
 
         opti_model = opti.fit(
             X_train,
             y_train
         )
         y_pred = opti_model.predict(X_test)
+
+        return pd.Series(
+            y_pred,
+            index=X_test.index
+        )
         
        
