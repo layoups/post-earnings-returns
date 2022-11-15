@@ -7,10 +7,10 @@ import scipy.stats as st
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor 
-from sklearn.linear_model import LinearRegression, Lasso, ElasticNet
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier 
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
 
 from sklearn import metrics 
 from sklearn.model_selection import cross_val_score
