@@ -1,3 +1,5 @@
+from typing import Dict, List, Any
+
 import pandas as pd 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -27,4 +29,13 @@ from sklearn.datasets import fetch_openml
 import pycatch22 as tsfe
 
 class TSFEA:
-    pass
+    
+    def __init__(
+        self,
+        models: Dict[str, BaseEstimator] = {},
+        hyparam_space: Dict[str, Dict[str, Any]] = {}
+    ) -> None:
+        self.models = models
+        self.hyparam_space = hyparam_space
+
+    
