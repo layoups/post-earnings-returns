@@ -182,9 +182,6 @@ class TSFEA:
         algo, 
     ):
         trials = Trials()
-        thePredictionDict = []
-        thePredictionEvalDict = {}
-        theFeatureImportanceDict = {}
         
         def objective(params):
             model.set_params(**params)
@@ -210,30 +207,4 @@ class TSFEA:
         )
         y_pred = opti_model.predict(X_test)
         
-        new_y_pred = scale_predicted_returns(pd.Series(y_pred, index=index))
-
-        thePredictionEvalDict["MODEL"] = algo
-        thePredictionEvalDict["DATE"] = date
-        
-        thePredictionEvalDict["IC"], thePredictionEvalDict["T"] =\
-            information_coefficient_t_statistic(y_test.div(100), new_y_pred)
-
-        for i in index:
-            thePredictionDict += [
-                {"MODEL": algo, "DATE": date, "SEDOL": i, "RETURN": new_y_pred.loc[i]}
-            ]
-
-        if algo == "LinearRegression":
-            coef_sig = opti_model.coef_
-            theFeatureImportanceDict["DATE"] = date
-            theFeatureImportanceDict["MODEL"] = algo
-            for i in range(len(numerical_columns)):
-                theFeatureImportanceDict[numerical_columns[i]] = coef_sig[i]
-        if algo == "AdaBoost":
-            coef_sig = opti_model.feature_importances_
-            theFeatureImportanceDict["DATE"] = date
-            theFeatureImportanceDict["MODEL"] = algo
-            for i in range(len(numerical_columns)):
-                theFeatureImportanceDict[numerical_columns[i]] = coef_sig[i]
-
-        return thePredictionDict, thePredictionEvalDict, theFeatureImportanceDict
+       
