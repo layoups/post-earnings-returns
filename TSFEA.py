@@ -116,7 +116,11 @@ class TSFEA:
         homogenized_earnings: pd.DataFrame,
         formatted_estimates: pd.DataFrame
     ) -> pd.DataFrame:
-        pass
+        homogenized_estimates = self.reconcile_dataset_with_earnings(
+            formatted_estimates,
+            homogenized_earnings
+        )
+        return homogenized_estimates.droplevel(1).set_index('ERNUM', append=True).sort_index()
 
 
     def get_earnings_number(
