@@ -69,6 +69,14 @@ class TSFEA:
         return earnings
 
 
+    def homogenize_estmates_dates(
+        self,
+        path_to_estimates: str,
+        homogenized_earnings: pd.DataFrame
+    ) -> pd.DataFrame:
+        pass
+
+
 
     def get_earnings_number(
         self,
