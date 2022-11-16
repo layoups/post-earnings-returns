@@ -194,13 +194,18 @@ class TSFEA:
                 ("selector", selector)
             ]
         )
+
+        X_train_tf, X_test_tf = (
+            transformer.fit_transform(X_train, y_train),
+            transformer.transform(X_test)
+        )
         
         def objective(params):
             model.set_params(**params)
             
             score = cross_val_score(
                 model,
-                X_train, 
+                X_train_tf, 
                 y_train, 
                 cv=3, 
                 n_jobs=-1, 
@@ -226,10 +231,10 @@ class TSFEA:
         opti.set_params(**best_hyparams)
 
         opti_model = opti.fit(
-            X_train,
+            X_train_tf,
             y_train
         )
-        y_pred = opti_model.predict(X_test)
+        y_pred = opti_model.predict(X_test_tf)
 
         return pd.Series(
             y_pred,
