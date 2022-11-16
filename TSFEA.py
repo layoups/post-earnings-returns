@@ -24,6 +24,8 @@ from sklearn.feature_selection import SelectKBest, mutual_info_classif
 from sklearn.utils._testing import ignore_warnings
 from sklearn.exceptions import ConvergenceWarning
 
+from xgboost import XGBClassifier 
+
 from hyperopt import tpe, hp, fmin, STATUS_OK, Trials, space_eval
 from sklearn.datasets import fetch_openml
 
