@@ -181,10 +181,19 @@ class TSFEA:
         y_train: pd.Series, 
         y_test: pd.Series, 
         algo: str, 
+        num_features: int
     ):
         trials = Trials()
         model = self.models[algo]
         hyparams = self.hyparam_space[algo]
+
+        selector = SelectKBest(mutual_info_classif, k=num_features)
+        transformer = Pipeline(
+            [
+                ("scaler", StandardScaler()),
+                ("selector", selector)
+            ]
+        )
         
         def objective(params):
             model.set_params(**params)
