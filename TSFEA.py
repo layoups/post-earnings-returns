@@ -177,7 +177,7 @@ class TSFEA:
 
 
     @ignore_warnings(category=ConvergenceWarning)
-    def tune_train_test(
+    def tune_train_predict(
         self,
         X_train: pd.DataFrame, 
         X_test: pd.DataFrame, 
