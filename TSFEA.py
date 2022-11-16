@@ -27,6 +27,7 @@ from sklearn.exceptions import ConvergenceWarning
 from xgboost import XGBClassifier 
 
 from hyperopt import tpe, hp, fmin, STATUS_OK, Trials, space_eval
+from hyperopt.pyll import scope
 from sklearn.datasets import fetch_openml
 
 import pycatch22 as tsfe
@@ -183,7 +184,8 @@ class TSFEA:
         y_train: pd.Series, 
         y_test: pd.Series, 
         algo: str, 
-        num_features: int
+        num_features: int,
+        max_evals: int
     ):
         trials = Trials()
         model = self.models[algo]
@@ -220,7 +222,7 @@ class TSFEA:
             objective, 
             hyparams, 
             algo=tpe.suggest, 
-            max_evals=100, 
+            max_evals=max_evals, 
             trials=trials, 
             show_progressbar=True
         )
@@ -238,6 +240,7 @@ class TSFEA:
         )
         y_pred = opti_model.predict(X_test_tf)
 
+        return y_pred
         return pd.Series(
             y_pred,
             index=X_test.index
