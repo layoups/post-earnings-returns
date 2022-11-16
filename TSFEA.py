@@ -240,6 +240,8 @@ class TSFEA:
         )
         y_pred = opti_model.predict(X_test_tf)
 
+
+        # revert to second return statement when dealing with dataframes
         return y_pred
         return pd.Series(
             y_pred,
