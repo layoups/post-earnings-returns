@@ -112,6 +112,10 @@ class TSFEA:
         ].sort_index()
         returns['ERNUM'] = 0
 
+        returns["RETURNS"] = returns.PRC.groupby(
+            level=0
+        ).pct_change().fillna(0)
+
         return returns
 
 
