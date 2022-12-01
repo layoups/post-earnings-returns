@@ -94,6 +94,26 @@ class TSFEA:
 
         return estimates
 
+    def format_returns_data(
+        self,
+        path_to_returns: str,
+        homogenized_earnings: pd.DataFrame
+    ) -> pd.DataFrame:
+        returns = pd.read_csv(path_to_returns)
+        returns.DATE = returns.DATE.astype('int')
+        returns = returns.set_index(['TICKER', 'DATE'])
+
+        returns = returns.loc[
+            returns.index.get_level_values(
+                0
+            ).isin(
+                homogenized_earnings.index.get_level_values(0)
+            )
+        ].sort_index()
+        returns['ERNUM'] = 0
+
+        return returns
+
 
     def reconcile_dataset_with_earnings(
         self,
