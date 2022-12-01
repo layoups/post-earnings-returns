@@ -147,7 +147,7 @@ class TSFEA:
         return homogenized_estimates.droplevel(1).set_index('ERNUM', append=True).sort_index()
 
     
-    def reconcile_retutrns_with_earnings(
+    def reconcile_returns_with_earnings(
         self,
         path_to_returns: str,
         homogenized_earnings: pd.DataFrame
