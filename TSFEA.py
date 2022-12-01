@@ -146,9 +146,9 @@ class TSFEA:
             ).T
 
             ftrs.columns.name = None
-            ftrs['ticker'] = ticker
-            ftrs['ernum'] = ernum
-            ftrs.set_index(['ticker', 'ernum'], inplace=True)
+            ftrs['TICKER'] = ticker
+            ftrs['ERNUM'] = ernum
+            ftrs.set_index(['TICKER', 'ERNUM'], inplace=True)
             ret.append(ftrs)
 
         all_ftrs = pd.concat(ret).add_prefix(col)
